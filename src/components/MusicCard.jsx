@@ -1,6 +1,6 @@
 const MusicCard = () => {
     return (
-        <div className="card bg-base-100 w-full shadow-xl">
+        <div className="card bg-base-100 w-1/2 shadow-xl">
             <div className="card-body">
                 <h2 className="card-title">Title:</h2>
                 <p>Artist:</p>
