@@ -25,7 +25,7 @@ const Navbar = () => {
                         <option>Action</option>
                     </select>
                     <div className="indicator">
-                        <button className="btn join-item">Search</button>
+                        <button className="ml-1 btn join-item">Search</button>
                     </div>
                 </div>
                 <div className="dropdown dropdown-end">
