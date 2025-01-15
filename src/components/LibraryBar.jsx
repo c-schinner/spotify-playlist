@@ -40,7 +40,11 @@ const LibraryBar = () => {
                 </div>
                 <a className="btn btn-ghost text-sm">Library</a>
             </div>
-            <div className="navbar-center hidden lg:flex"></div>
+            <input
+                type="text"
+                placeholder="Playlist"
+                className="input input-bordered input-info w-full max-w-xs"
+            />
             <div className="navbar-end">
                 <a className="btn">+</a>
             </div>
