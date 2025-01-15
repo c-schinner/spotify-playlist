@@ -2,11 +2,14 @@ import SongCarousel from "./SongCarousel";
 
 const RightSideboard = () => {
     return (
-        <div className="artboard phone-4 h-full overflow-y-auto overflow-x-hidden">
-            <div className="">
+        <div className="h-full overflow-y-auto overflow-x-hidden mt-10">
+            <div className="mb-2">
                 <SongCarousel />
             </div>
-            <div className="">
+            <div className="mb-2">
+                <SongCarousel />
+            </div>
+            <div className="mb-2">
                 <SongCarousel />
             </div>
         </div>
