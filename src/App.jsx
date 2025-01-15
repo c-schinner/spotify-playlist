@@ -8,11 +8,11 @@ function App() {
             <div className="sticky top-0 z-50">
                 <Navbar />
             </div>
-            <div className="flex flex-col md:flex-row gap-4">
-                <div className="w-full md:w-1/2">
+            <div className="grid grid-cols-2">
+                <div className="w-full">
                     <Sideboard />
                 </div>
-                <div className="w-full md:w-1/2">
+                <div className="w-auto">
                     <RightSideboard />
                 </div>
             </div>
