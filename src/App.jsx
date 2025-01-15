@@ -9,7 +9,7 @@ function App() {
             <div className="sticky top-0 z-50">
                 <Navbar />
             </div>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-2 gap-0">
                 <div className="w-full">
                     <Sideboard />
                 </div>
