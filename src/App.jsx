@@ -1,4 +1,5 @@
 import Navbar from "./components/Navbar";
+import RightSideboard from "./components/RightSideboard";
 import Sideboard from "./Sideboard";
 
 function App() {
@@ -7,8 +8,9 @@ function App() {
             <div className="sticky top-0 z-50">
                 <Navbar />
             </div>
-            <div className="">
+            <div className="grid grid-cols-2">
                 <Sideboard />
+                <RightSideboard />
             </div>
         </div>
     );
