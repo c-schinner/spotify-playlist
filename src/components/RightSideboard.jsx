@@ -2,7 +2,7 @@ import SongCarousel from "./SongCarousel";
 
 const RightSideboard = () => {
     return (
-        <div className="artboard phone-4 h-full overflow-y-auto">
+        <div className="artboard phone-4 h-full overflow-y-auto overflow-x-hidden">
             <div className="">
                 <SongCarousel />
             </div>

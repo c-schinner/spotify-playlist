@@ -1,14 +1,12 @@
-import Footer from "./Footer";
 import LibraryBar from "./LibraryBar";
 import MusicCard from "./MusicCard";
 
 const Sideboard = () => {
     return (
-        <div className="h-full flex flex-col p-4">
-            <div className="artboard phone-1 flex-1 space-y-2">
+        <div className="h-full flex flex-col p-4 md:max-w-[400px] md:max-h-screen">
+            <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
                 <LibraryBar />
                 <MusicCard />
-                <Footer />
             </div>
         </div>
     );
