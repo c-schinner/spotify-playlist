@@ -8,11 +8,14 @@ const LibraryCard = () => {
                         alt="Shoes"
                     />
                 </figure>
-                <div className="card-body">
+                <div className="card-body relative">
                     <h2 className="card-title">Title</h2>
                     <p>Artist:</p>
                     <p>Album:</p>
                     <p>Song Name:</p>
+                    <button className="btn btn-outline btn-warning absolute top-2 right-2">
+                        -
+                    </button>
                 </div>
             </div>
             <div className="card bg-base-100 image-full w-full shadow-xl">
