@@ -8,7 +8,7 @@ const Sideboard = () => {
             <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
                 <LibraryBar />
                 <MusicCard />
-                <div className="overflow-y-auto">
+                <div className="overflow-x-auto">
                     <LibraryCard />
                 </div>
             </div>
