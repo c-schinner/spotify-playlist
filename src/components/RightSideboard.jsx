@@ -4,7 +4,7 @@ const RightSideboard = () => {
     return (
         <div className="h-full w-full overflow-y-auto overflow-x-hidden">
             <div className="mb-2">
-                <p>Your search results...</p>
+                <p>Your Search Results...</p>
                 <SongCarousel />
             </div>
             <div className="mb-2">
