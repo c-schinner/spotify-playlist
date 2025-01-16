@@ -4,7 +4,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
-                <a className="btn btn-ghost text-sm">Home</a>
+                <a className="btn btn-ghost text-sm">Create your Playlists</a>
             </div>
             <div className="flex-none gap-2">
                 <div className="join">
@@ -20,12 +20,16 @@ const Navbar = () => {
                         <option disabled selected>
                             Filter
                         </option>
-                        <option>Sci-fi</option>
-                        <option>Drama</option>
-                        <option>Action</option>
+                        <option>Rock</option>
+                        <option>Indy</option>
+                        <option>Classical</option>
+                        <option>Pop</option>
+                        <option>Jazz</option>
+                        <option>Rap</option>
+                        <option>Hip-Hop</option>
                     </select>
                     <div className="indicator">
-                        <button className="ml-1 btn join-item">Search</button>
+                        <button className="ml-1 btn join-item">Submit</button>
                     </div>
                 </div>
                 <div className="dropdown dropdown-end">
