@@ -13,11 +13,14 @@ const Sideboard = () => {
                 <div className="flex flex-row">
                     <MusicCard />
                     <div className="flex flex-col pl-8 pt-8">
-                        <button className="btn btn-outline btn-success mb-4">
-                            Save
+                        <button className="btn btn-outline btn-success">
+                            Play
                         </button>
-                        <button className="btn btn-outline btn-error mt-4">
+                        <button className="btn btn-outline btn-error mt-8">
                             Delete
+                        </button>
+                        <button className="btn btn-outline btn-accent mt-8">
+                            Save
                         </button>
                     </div>
                 </div>
