@@ -14,7 +14,7 @@ const LibraryCard = () => {
                     <p>Album:</p>
                     <p>Song Name:</p>
                     <button className="btn btn-outline btn-warning absolute top-2 right-2">
-                        -
+                        +
                     </button>
                 </div>
             </div>

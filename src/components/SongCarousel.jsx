@@ -7,7 +7,7 @@ const SongCarousel = () => {
                     className="rounded-box w-[200px] h-[200px] object-cover"
                 />
                 <button className="btn btn-outline btn-info h-2 absolute top-2 right-2">
-                    Add
+                    +
                 </button>
             </div>
             <div className="card bg-base-100 image-full w-[72px] shadow-xl"></div>
