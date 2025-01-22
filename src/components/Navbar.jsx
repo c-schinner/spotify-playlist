@@ -1,23 +1,8 @@
 import { ImProfile } from "react-icons/im";
-import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "../FirebaseConfig";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useState } from "react";
 
 const Navbar = () => {
-    const [user] = useAuthState(auth);
-
-    const googleSignIn = async () => {
-        const provider = new GoogleAuthProvider();
-        try {
-            await signInWithPopup(auth, provider);
-        } catch (error) {
-            console.errorr("Google Sign-In Error:", error.message);
-        }
-    };
-
-    const signOut = () => {
-        auth.signOut();
-    };
+    const [selectedOption, setSelectedOption] = useState("");
 
     return (
         <div className="navbar bg-base-100">
@@ -34,17 +19,21 @@ const Navbar = () => {
                             />
                         </div>
                     </div>
-                    <select className="select select-bordered join-item">
-                        <option disabled selected>
+                    <select
+                        className="select select-bordered join-item"
+                        value={selectedOption}
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                    >
+                        <option disabled value="">
                             Filter
                         </option>
-                        <option>Rock</option>
-                        <option>Indy</option>
-                        <option>Classical</option>
-                        <option>Pop</option>
-                        <option>Jazz</option>
-                        <option>Rap</option>
-                        <option>Hip-Hop</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Indy">Indy</option>
+                        <option value="Classical">Classical</option>
+                        <option value="Pop">Pop</option>
+                        <option value="Jazz">Jazz</option>
+                        <option value="Rap">Rap</option>
+                        <option value="Hip-Hop">Hip-Hop</option>
                     </select>
                     <div className="indicator">
                         <button className="ml-1 btn join-item">Submit</button>
@@ -57,38 +46,24 @@ const Navbar = () => {
                         className="btn btn-ghost btn-circle avatar"
                     >
                         <div className="w-10 rounded-full">
-                            {user ? (
-                                <img src={user.photoURL} alt="Profile" />
-                            ) : (
-                                <ImProfile size={42} />
-                            )}
+                            <ImProfile size={42} />
                         </div>
                     </div>
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     >
-                        {user ? (
-                            <li>
-                                <button
-                                    onClick={signOut}
-                                    className=""
-                                    type="button"
-                                >
-                                    Sign Out
-                                </button>
-                            </li>
-                        ) : (
-                            <li>
-                                <button
-                                    onClick={googleSignIn}
-                                    className=""
-                                    type="button"
-                                >
-                                    Sign In
-                                </button>
-                            </li>
-                        )}
+                        <li>
+                            <button className="" type="button">
+                                Sign Out
+                            </button>
+                        </li>
+
+                        <li>
+                            <button className="" type="button">
+                                Sign In
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>

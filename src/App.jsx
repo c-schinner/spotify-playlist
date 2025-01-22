@@ -3,6 +3,9 @@ import RightSideboard from "./components/RightSideboard";
 import Sideboard from "./components/Sideboard";
 import Footer from "./components/Footer";
 
+console.log(import.meta.env);
+console.log("App Component Loaded");
+
 function App() {
     return (
         <div>
