@@ -14,7 +14,7 @@ const RightSideboard = () => {
                 <TopPicksCarousel />
             </div>
             <div className="mb-2">
-                <p>New Releases.</p>
+                <p>New Releases</p>
                 <NewReleasesCarousel />
             </div>
         </div>
