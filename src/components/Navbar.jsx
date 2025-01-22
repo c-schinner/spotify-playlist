@@ -1,8 +1,9 @@
 import { ImProfile } from "react-icons/im";
 import { useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import auth from "../FirebaseConfig";
+import { auth, db } from "../FirebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const Navbar = () => {
     const [selectedOption, setSelectedOption] = useState("");
@@ -14,6 +15,14 @@ const Navbar = () => {
         try {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+
+            await setDoc(doc(db, "users", user.uid), {
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                createdAt: new Date(),
+            });
+
             console.log("User signed in:", user);
         } catch (error) {
             console.error("Error signing in with Google:", error);
