@@ -1,6 +1,7 @@
 import LibraryBar from "./LibraryBar";
 import LibraryCard from "./LibraryCard";
 import MusicCard from "./MusicCard";
+import { CiPlay1 } from "react-icons/ci";
 
 const Sideboard = () => {
     return (
@@ -14,7 +15,7 @@ const Sideboard = () => {
                     <MusicCard />
                     <div className="flex flex-col pl-8 pt-8">
                         <button className="btn btn-outline btn-success">
-                            Play
+                            <CiPlay1 size={24} />
                         </button>
                         <button className="btn btn-outline btn-error mt-8">
                             Delete
