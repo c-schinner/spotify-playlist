@@ -1,4 +1,4 @@
-const SongCarousel = () => {
+const TopPicksCarousel = () => {
     return (
         <div className="carousel carousel-center bg-neutral rounded-box w-full max-h-[250px]">
             <div className="carousel-item relative">
@@ -69,4 +69,4 @@ const SongCarousel = () => {
     );
 };
 
-export default SongCarousel;
+export default TopPicksCarousel;
