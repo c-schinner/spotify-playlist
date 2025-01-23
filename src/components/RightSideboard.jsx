@@ -23,9 +23,9 @@ const RightSideboard = ({ searchResults, topPicks, newReleases }) => {
 };
 
 RightSideboard.propTypes = {
-    searchResults: PropTypes.arrayOf(PropTypes.object).isRequired,
-    topPicks: PropTypes.arrayOf(PropTypes.object).isRequired,
-    newReleases: PropTypes.arrayOf(PropTypes.object).isRequired,
+    searchResults: PropTypes.array,
+    topPicks: PropTypes.array,
+    newReleases: PropTypes.array,
 };
 
 export default RightSideboard;

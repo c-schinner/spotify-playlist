@@ -5,16 +5,18 @@ import Footer from "./components/Footer";
 
 import { useState, useEffect } from "react";
 
-console.log(import.meta.env);
-
 function App() {
     const [accessToken, setAccessToken] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
     const [topPicks, setTopPicks] = useState([]);
     const [newReleases, setNewReleases] = useState([]);
 
-    const clientId = import.meta.env.REACT_APP_SPOTIFY_CLIENT_ID;
-    const clientSecret = import.meta.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
+    const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+
+    console.log(import.meta.env);
+    console.log("Client ID:", clientId);
+    console.log("Client Secret:", clientSecret);
 
     const fetchAccessToken = async () => {
         try {
@@ -62,7 +64,7 @@ function App() {
 
         try {
             const response = await fetch(
-                "https://api.spotify.com/v1/reccomendations?seed_genres=pop",
+                "https://api.spotify.com/v1/recommendations?seed_genres=pop",
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
@@ -81,14 +83,20 @@ function App() {
         if (!accessToken || !query) return;
 
         try {
-            const response = await fetch(
-                `https://api.spotify.com/v1/search?q=${query}&type=track`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
+            let url = `https://api.spotify.com/v1/search?q=${query}&type=track`;
+            if (category) {
+                url += `&genre=${encodeURIComponent(category)}`;
+            }
+
+            const response = await fetch(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!response.ok) {
+                console.error("Error response:", await response.json());
+            }
 
             const data = await response.json();
 
@@ -118,7 +126,7 @@ function App() {
     return (
         <div>
             <div className="sticky top-0 z-50">
-                <Navbar onSearch={handleSearch} />
+                <Navbar onSearch={(query) => handleSearch(query, "")} />
             </div>
             <div className="grid grid-cols-2 gap-0 w-full h-full">
                 <div className="w-full h-full">
@@ -140,5 +148,3 @@ function App() {
 }
 
 export default App;
-
-// a few issues, setTopPicks and in the handle search function we are not using the category prop.

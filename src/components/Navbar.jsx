@@ -40,7 +40,9 @@ const Navbar = ({ onSearch }) => {
     };
 
     const handleSubmitSearch = () => {
-        onSearch(searchQuery, selectedOption);
+        if (searchQuery.trim() || selectedOption) {
+            onSearch(searchQuery, selectedOption);
+        }
     };
 
     return (
