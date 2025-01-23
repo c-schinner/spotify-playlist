@@ -34,11 +34,11 @@ const LibraryBar = () => {
                         </li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-sm">Library</a>
+                <a className="btn btn-ghost text-sm">Library/Playlist Name:</a>
             </div>
             <input
                 type="text"
-                placeholder="Playlist"
+                placeholder="Name your Playlist"
                 className="input input-bordered input-info w-full max-w-xs"
             />
             <div className="navbar-end">

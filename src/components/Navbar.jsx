@@ -4,10 +4,12 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../FirebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, setDoc } from "firebase/firestore";
+import PropTypes from "prop-types";
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
     const [selectedOption, setSelectedOption] = useState("");
     const [user] = useAuthState(auth);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const provider = new GoogleAuthProvider();
 
@@ -33,6 +35,14 @@ const Navbar = () => {
         auth.signOut();
     };
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const handleSubmitSearch = () => {
+        onSearch(searchQuery, selectedOption);
+    };
+
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
@@ -45,6 +55,8 @@ const Navbar = () => {
                             <input
                                 className="input input-bordered join-item"
                                 placeholder="Search"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
                             />
                         </div>
                     </div>
@@ -65,7 +77,12 @@ const Navbar = () => {
                         <option value="Hip-Hop">Hip-Hop</option>
                     </select>
                     <div className="indicator">
-                        <button className="ml-1 btn join-item">Submit</button>
+                        <button
+                            className="ml-1 btn join-item"
+                            onClick={handleSubmitSearch}
+                        >
+                            Submit
+                        </button>
                     </div>
                 </div>
                 <div className="dropdown dropdown-end">
@@ -116,6 +133,10 @@ const Navbar = () => {
             </div>
         </div>
     );
+};
+
+Navbar.propTypes = {
+    onSearch: PropTypes.func.isRequired,
 };
 
 export default Navbar;
