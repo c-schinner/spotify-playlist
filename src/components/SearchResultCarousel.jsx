@@ -1,3 +1,5 @@
+// we are going to have our search results in this carousel
+
 const SearchResultCarousel = () => {
     return (
         <div className="carousel carousel-center bg-neutral rounded-box w-full max-h-[250px]">
