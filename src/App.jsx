@@ -3,7 +3,7 @@ import RightSideboard from "./components/RightSideboard";
 import Sideboard from "./components/Sideboard";
 import Footer from "./components/Footer";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 function App() {
     const [accessToken, setAccessToken] = useState(null);
@@ -40,7 +40,7 @@ function App() {
 
     console.log("Access token:", accessToken);
 
-    const fetchNewReleases = async () => {
+    const fetchNewReleases = useCallback(async () => {
         if (!accessToken) return;
 
         try {
@@ -58,7 +58,7 @@ function App() {
         } catch (error) {
             console.error("Error fetching new releases:", error);
         }
-    };
+    }, [accessToken]);
 
     const handleSearch = async (query, category) => {
         if (!accessToken || !query) return;
@@ -101,12 +101,16 @@ function App() {
         if (accessToken) {
             fetchNewReleases();
         }
-    }, [accessToken]);
+    }, [accessToken, fetchNewReleases]);
 
     return (
         <div>
             <div className="sticky top-0 z-50">
-                <Navbar onSearch={(query) => handleSearch(query, "")} />
+                <Navbar
+                    onSearch={(query, category) =>
+                        handleSearch(query, category)
+                    }
+                />
             </div>
             <div className="grid grid-cols-2 gap-0 w-full h-full">
                 <div className="w-full h-full">
