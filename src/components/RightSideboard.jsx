@@ -4,22 +4,46 @@ import { useState } from "react";
 
 import PropTypes from "prop-types";
 
-const RightSideboard = ({
-    searchResults,
-    newReleases,
-    accessToken,
-    onSearch,
-}) => {
+const RightSideboard = ({ newReleases, accessToken }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedOption, setSelectedOption] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const handleSubmitSearch = () => {
-        if (searchQuery.trim() || selectedOption) {
-            onSearch(searchQuery, selectedOption);
+    const handleSearch = async (query, category) => {
+        if (!accessToken || !query) return;
+
+        try {
+            let url = `https://api.spotify.com/v1/search?q=${query}&type=track`;
+            if (category) {
+                url += `&genre=${encodeURIComponent(category)}`;
+            }
+
+            const response = await fetch(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (!response.ok) {
+                console.error("Error response:", await response.json());
+            }
+
+            const data = await response.json();
+            console.log("Search Data:", data);
+
+            if (category === "track") {
+                setSearchResults(data.tracks.items);
+            } else if (category === "artist") {
+                setSearchResults(data.artists.items);
+            } else if (category === "album") {
+                setSearchResults(data.albums.items);
+            }
+        } catch (error) {
+            console.error("Error fetching tracks:", error);
         }
     };
 
@@ -51,7 +75,7 @@ const RightSideboard = ({
                 <div className="indicator">
                     <button
                         className="ml-1 btn join-item"
-                        onClick={handleSubmitSearch}
+                        onClick={handleSearch}
                     >
                         Submit
                     </button>
@@ -73,7 +97,6 @@ RightSideboard.propTypes = {
     searchResults: PropTypes.array,
     newReleases: PropTypes.array,
     accessToken: PropTypes.string,
-    onSearch: PropTypes.func.isRequired,
 };
 
 export default RightSideboard;

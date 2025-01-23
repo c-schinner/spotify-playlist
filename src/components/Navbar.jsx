@@ -3,7 +3,6 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../FirebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, setDoc } from "firebase/firestore";
-import PropTypes from "prop-types";
 
 const Navbar = () => {
     const [user] = useAuthState(auth);
@@ -86,10 +85,6 @@ const Navbar = () => {
             </div>
         </div>
     );
-};
-
-Navbar.propTypes = {
-    onSearch: PropTypes.func.isRequired,
 };
 
 export default Navbar;

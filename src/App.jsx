@@ -7,7 +7,6 @@ import { useState, useEffect, useCallback } from "react";
 
 function App() {
     const [accessToken, setAccessToken] = useState(null);
-    const [searchResults, setSearchResults] = useState([]);
     const [newReleases, setNewReleases] = useState([]);
 
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -60,40 +59,6 @@ function App() {
         }
     }, [accessToken]);
 
-    const handleSearch = async (query, category) => {
-        if (!accessToken || !query) return;
-
-        try {
-            let url = `https://api.spotify.com/v1/search?q=${query}&type=track`;
-            if (category) {
-                url += `&genre=${encodeURIComponent(category)}`;
-            }
-
-            const response = await fetch(url, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            if (!response.ok) {
-                console.error("Error response:", await response.json());
-            }
-
-            const data = await response.json();
-            console.log("Search Data:", data);
-
-            if (category === "track") {
-                setSearchResults(data.tracks.items);
-            } else if (category === "artist") {
-                setSearchResults(data.artists.items);
-            } else if (category === "album") {
-                setSearchResults(data.albums.items);
-            }
-        } catch (error) {
-            console.error("Error fetching tracks:", error);
-        }
-    };
-
     useEffect(() => {
         fetchAccessToken();
     }, []);
@@ -107,11 +72,7 @@ function App() {
     return (
         <div>
             <div className="sticky top-0 z-50">
-                <Navbar
-                    onSearch={(query, category) =>
-                        handleSearch(query, category)
-                    }
-                />
+                <Navbar />
             </div>
             <div className="grid grid-cols-2 gap-0 w-full h-full">
                 <div className="w-full h-full">
@@ -119,10 +80,8 @@ function App() {
                 </div>
                 <div className="w-full h-full">
                     <RightSideboard
-                        searchResults={searchResults}
                         newReleases={newReleases}
                         accessToken={accessToken}
-                        onSearch={handleSearch}
                     />
                 </div>
             </div>
