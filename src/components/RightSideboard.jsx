@@ -1,18 +1,14 @@
 import NewReleasesCarousel from "./NewReleasesCarousel";
 import SearchResultCarousel from "./SearchResultCarousel";
-import TopPicksCarousel from "./TopPicksCarousel";
+
 import PropTypes from "prop-types";
 
-const RightSideboard = ({ searchResults, topPicks, newReleases }) => {
+const RightSideboard = ({ searchResults, newReleases }) => {
     return (
         <div className="h-full w-full overflow-y-auto overflow-x-hidden">
             <div className="mb-2">
                 <p>Your Search Results...</p>
                 <SearchResultCarousel data={searchResults} />
-            </div>
-            <div className="mb-2">
-                <p>Top Picks!</p>
-                <TopPicksCarousel data={topPicks} />
             </div>
             <div className="mb-2">
                 <p>New Releases.</p>
@@ -24,7 +20,6 @@ const RightSideboard = ({ searchResults, topPicks, newReleases }) => {
 
 RightSideboard.propTypes = {
     searchResults: PropTypes.array,
-    topPicks: PropTypes.array,
     newReleases: PropTypes.array,
 };
 

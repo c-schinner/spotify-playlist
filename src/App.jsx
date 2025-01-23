@@ -8,7 +8,6 @@ import { useState, useEffect } from "react";
 function App() {
     const [accessToken, setAccessToken] = useState(null);
     const [searchResults, setSearchResults] = useState([]);
-    const [topPicks, setTopPicks] = useState([]);
     const [newReleases, setNewReleases] = useState([]);
 
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -39,6 +38,8 @@ function App() {
         }
     };
 
+    console.log("Access token:", accessToken);
+
     const fetchNewReleases = async () => {
         if (!accessToken) return;
 
@@ -56,26 +57,6 @@ function App() {
             setNewReleases(data.albums.items);
         } catch (error) {
             console.error("Error fetching new releases:", error);
-        }
-    };
-
-    const fetchTopPicks = async () => {
-        if (!accessToken) return;
-
-        try {
-            const response = await fetch(
-                "https://api.spotify.com/v1/recommendations?seed_genres=pop",
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
-
-            const data = await response.json();
-            setTopPicks(data.tracks);
-        } catch (error) {
-            console.error("Error fetching top picks", error);
         }
     };
 
@@ -119,7 +100,6 @@ function App() {
     useEffect(() => {
         if (accessToken) {
             fetchNewReleases();
-            fetchTopPicks();
         }
     }, [accessToken]);
 
@@ -135,7 +115,6 @@ function App() {
                 <div className="w-full h-full">
                     <RightSideboard
                         searchResults={searchResults}
-                        topPicks={topPicks}
                         newReleases={newReleases}
                     />
                 </div>
