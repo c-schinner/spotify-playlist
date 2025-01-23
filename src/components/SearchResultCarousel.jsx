@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 
 const SearchResultCarousel = ({ data }) => {
+    console.log("Rendering SearchResultCarousel with data:", data);
+
     return (
         <div className="carousel carousel-center bg-neutral rounded-box w-full max-h-[250px]">
             {data.map((item) => (
