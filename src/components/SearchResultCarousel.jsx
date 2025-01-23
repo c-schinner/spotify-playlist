@@ -7,7 +7,7 @@ const SearchResultCarousel = ({ data }) => {
                 <div key={item.id} className="carousel-item relative">
                     <img
                         className="rounded-box w-[200px] h-[200px] object-cover"
-                        src={item.album.images[0].url}
+                        src={item.album?.images[0]?.url || "default-image-url"}
                         alt={item.name}
                     />
                     <p>{item.name}</p>
@@ -22,7 +22,7 @@ const SearchResultCarousel = ({ data }) => {
 };
 
 SearchResultCarousel.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    data: PropTypes.array,
 };
 
 export default SearchResultCarousel;

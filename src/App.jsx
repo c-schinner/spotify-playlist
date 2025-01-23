@@ -80,6 +80,7 @@ function App() {
             }
 
             const data = await response.json();
+            console.log("Search Data:", data);
 
             if (category === "track") {
                 setSearchResults(data.tracks.items);
