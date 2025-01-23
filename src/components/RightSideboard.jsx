@@ -6,21 +6,17 @@ import PropTypes from "prop-types";
 
 const RightSideboard = ({ newReleases, accessToken }) => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedOption, setSelectedOption] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const handleSearch = async (query, category) => {
-        if (!accessToken || !query) return;
+    const handleSearch = async () => {
+        if (!accessToken || !searchQuery) return;
 
         try {
-            let url = `https://api.spotify.com/v1/search?q=${query}&type=track`;
-            if (category) {
-                url += `&genre=${encodeURIComponent(category)}`;
-            }
+            let url = `https://api.spotify.com/v1/search?q=${searchQuery}&type=track`;
 
             const response = await fetch(url, {
                 headers: {
@@ -29,19 +25,12 @@ const RightSideboard = ({ newReleases, accessToken }) => {
             });
 
             if (!response.ok) {
-                console.error("Error response:", await response.json());
+                console.error("Failed to load tracks:");
             }
 
             const data = await response.json();
             console.log("Search Data:", data);
-
-            if (category === "track") {
-                setSearchResults(data.tracks.items);
-            } else if (category === "artist") {
-                setSearchResults(data.artists.items);
-            } else if (category === "album") {
-                setSearchResults(data.albums.items);
-            }
+            setSearchResults(data.tracks.items);
         } catch (error) {
             console.error("Error fetching tracks:", error);
         }
@@ -60,18 +49,6 @@ const RightSideboard = ({ newReleases, accessToken }) => {
                         />
                     </div>
                 </div>
-                <select
-                    className="select select-bordered join-item"
-                    value={selectedOption}
-                    onChange={(e) => setSelectedOption(e.target.value)}
-                >
-                    <option disabled value="">
-                        Filter
-                    </option>
-                    <option value="track">Track</option>
-                    <option value="artist">Artist</option>
-                    <option value="album">Album</option>
-                </select>
                 <div className="indicator">
                     <button
                         className="ml-1 btn join-item"

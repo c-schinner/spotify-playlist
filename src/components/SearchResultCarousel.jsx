@@ -7,13 +7,20 @@ const SearchResultCarousel = ({ data }) => {
         <div className="carousel carousel-center bg-neutral rounded-box w-full max-h-[250px]">
             {data.map((item) => (
                 <div key={item.id} className="carousel-item relative">
-                    <img
-                        className="rounded-box w-[200px] h-[200px] object-cover"
-                        src={item.album?.images[0]?.url || "default-image-url"}
-                        alt={item.name}
-                    />
+                    {item.album ? (
+                        <img
+                            className="rounded-box w-[200px] h-[200px] object-cover"
+                            src={
+                                item.album?.images[0]?.url ||
+                                "default-image-url"
+                            }
+                            alt={item.name}
+                        />
+                    ) : null}
+
                     <p>{item.name}</p>
-                    <p>{item.artist[0].name}</p>
+
+                    {item.artists ? <p>{item.artists[0]?.name}</p> : null}
                     <button className="btn btn-outline btn-info h-2 absolute top-2 right-2">
                         +
                     </button>
