@@ -1,15 +1,12 @@
 import { ImProfile } from "react-icons/im";
-import { useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, db } from "../FirebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, setDoc } from "firebase/firestore";
 import PropTypes from "prop-types";
 
-const Navbar = ({ onSearch }) => {
-    const [selectedOption, setSelectedOption] = useState("");
+const Navbar = () => {
     const [user] = useAuthState(auth);
-    const [searchQuery, setSearchQuery] = useState("");
 
     const provider = new GoogleAuthProvider();
 
@@ -35,58 +32,12 @@ const Navbar = ({ onSearch }) => {
         auth.signOut();
     };
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-    };
-
-    const handleSubmitSearch = () => {
-        if (searchQuery.trim() || selectedOption) {
-            onSearch(searchQuery, selectedOption);
-        }
-    };
-
     return (
         <div className="navbar bg-base-100">
             <div className="flex-1">
                 <p className="text-sm">Create your Playlists</p>
             </div>
             <div className="flex-none gap-2">
-                <div className="join">
-                    <div>
-                        <div>
-                            <input
-                                className="input input-bordered join-item"
-                                placeholder="Search"
-                                value={searchQuery}
-                                onChange={handleSearchChange}
-                            />
-                        </div>
-                    </div>
-                    <select
-                        className="select select-bordered join-item"
-                        value={selectedOption}
-                        onChange={(e) => setSelectedOption(e.target.value)}
-                    >
-                        <option disabled value="">
-                            Filter
-                        </option>
-                        <option value="Rock">Rock</option>
-                        <option value="Indy">Indy</option>
-                        <option value="Classical">Classical</option>
-                        <option value="Pop">Pop</option>
-                        <option value="Jazz">Jazz</option>
-                        <option value="Rap">Rap</option>
-                        <option value="Hip-Hop">Hip-Hop</option>
-                    </select>
-                    <div className="indicator">
-                        <button
-                            className="ml-1 btn join-item"
-                            onClick={handleSubmitSearch}
-                        >
-                            Submit
-                        </button>
-                    </div>
-                </div>
                 <div className="dropdown dropdown-end">
                     <div
                         tabIndex={0}

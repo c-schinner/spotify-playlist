@@ -121,6 +121,8 @@ function App() {
                     <RightSideboard
                         searchResults={searchResults}
                         newReleases={newReleases}
+                        accessToken={accessToken}
+                        onSearch={handleSearch}
                     />
                 </div>
             </div>
