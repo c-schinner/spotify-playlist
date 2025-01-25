@@ -17,19 +17,20 @@ const SearchResultCarousel = ({ data }) => {
                             alt={item.name}
                         />
                     ) : null}
-
-                    <p className="mt-2 text-center text-sm font-semibold">
-                        {item.name}
-                    </p>
-
-                    {item.artists ? (
-                        <p className="text-center text-xs">
-                            {item.artists[0]?.name}
+                    <div className="flex flex-col items-center justify-center p-2">
+                        <p className="mt-2 text-center text-sm font-semibold">
+                            {item.name}
                         </p>
-                    ) : null}
-                    <button className="btn btn-outline btn-info h-2 absolute bottom-2 right-2">
-                        +
-                    </button>
+
+                        {item.artists ? (
+                            <p className="text-center text-xs">
+                                {item.artists[0]?.name}
+                            </p>
+                        ) : null}
+                        <button className="btn btn-outline btn-info h-2 absolute top-2">
+                            +
+                        </button>
+                    </div>
                 </div>
             ))}
         </div>
