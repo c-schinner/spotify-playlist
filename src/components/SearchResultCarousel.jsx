@@ -18,10 +18,16 @@ const SearchResultCarousel = ({ data }) => {
                         />
                     ) : null}
 
-                    <p>{item.name}</p>
+                    <p className="mt-2 text-center text-sm font-semibold">
+                        {item.name}
+                    </p>
 
-                    {item.artists ? <p>{item.artists[0]?.name}</p> : null}
-                    <button className="btn btn-outline btn-info h-2 absolute top-2 right-2">
+                    {item.artists ? (
+                        <p className="text-center text-xs">
+                            {item.artists[0]?.name}
+                        </p>
+                    ) : null}
+                    <button className="btn btn-outline btn-info h-2 absolute bottom-2 right-2">
                         +
                     </button>
                 </div>
