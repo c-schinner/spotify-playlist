@@ -41,4 +41,6 @@ SearchResultCarousel.propTypes = {
     data: PropTypes.array,
 };
 
+// Fix the layout for the info(band name and song  name) after searching
+
 export default SearchResultCarousel;
