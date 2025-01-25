@@ -1,12 +1,14 @@
 import NewReleasesCarousel from "./NewReleasesCarousel";
 import SearchResultCarousel from "./SearchResultCarousel";
 import { useState } from "react";
+import SkeletonCard from "./SkeletonCard";
 
 import PropTypes from "prop-types";
 
 const RightSideboard = ({ newReleases, accessToken }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
+    const [hasSearched, setHasSearched] = useState(false);
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
@@ -31,6 +33,7 @@ const RightSideboard = ({ newReleases, accessToken }) => {
             const data = await response.json();
             console.log("Search Data:", data);
             setSearchResults(data.tracks.items);
+            setHasSearched(true);
         } catch (error) {
             console.error("Error fetching tracks:", error);
         }
@@ -60,7 +63,13 @@ const RightSideboard = ({ newReleases, accessToken }) => {
             </div>
             <div className="mb-2">
                 <p>Your Search Results...</p>
-                <SearchResultCarousel data={searchResults} />
+                {!hasSearched ? (
+                    <div className="p-2 mt-2">
+                        <SkeletonCard />
+                    </div>
+                ) : (
+                    <SearchResultCarousel data={searchResults} />
+                )}
             </div>
             <div className="mb-2">
                 <p>New Releases.</p>
