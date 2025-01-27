@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 
 const MusicCard = ({ song }) => {
+    console.log("MusicCard recieved song:", song);
+
     return (
         <div className="card bg-base-100 w-1/2 shadow-xl">
             <div className="card-body">
@@ -9,7 +11,7 @@ const MusicCard = ({ song }) => {
                 <p>{song.album?.name}</p>
             </div>
             <figure>
-                {song.images[0]?.url ? (
+                {song.album?.images[0]?.url ? (
                     <img
                         src={song.album?.images[0]?.url}
                         alt={song.name || "Album Cover"}
@@ -40,7 +42,7 @@ MusicCard.propTypes = {
                 })
             ),
         }),
-    }),
+    }).isRequired,
 };
 
 export default MusicCard;

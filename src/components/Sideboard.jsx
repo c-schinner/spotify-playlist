@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import SkeletonCard from "./SkeletonCard";
 
 const Sideboard = ({ selectedSongs }) => {
-    console.log(selectedSongs);
+    console.log("Selected song data:", selectedSongs);
 
     return (
         <div className="h-full flex flex-col px-4 w-full">

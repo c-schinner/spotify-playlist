@@ -61,6 +61,7 @@ function App() {
     }, [accessToken]);
 
     const handleAddToSideboard = (song) => {
+        console.log("Adding song to sideboard:", song);
         setSelectedSongs(song);
     };
 
