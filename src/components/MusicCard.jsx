@@ -9,14 +9,38 @@ const MusicCard = ({ song }) => {
                 <p>{song.album?.name}</p>
             </div>
             <figure>
-                <img src={song.album?.images[0]?.url} alt={song.name} />
+                {song.images[0]?.url ? (
+                    <img
+                        src={song.album?.images[0]?.url}
+                        alt={song.name || "Album Cover"}
+                    />
+                ) : (
+                    <div className="w-full h-32 bg-gray-300 flex items-center justify-center">
+                        <p>No Image</p>
+                    </div>
+                )}
             </figure>
         </div>
     );
 };
 
 MusicCard.propTypes = {
-    song: PropTypes.object,
+    song: PropTypes.shape({
+        name: PropTypes.string,
+        artist: PropTypes.arrayOf(
+            PropTypes.shape({
+                name: PropTypes.string,
+            })
+        ),
+        album: PropTypes.shape({
+            name: PropTypes.string,
+            images: PropTypes.arrayOf(
+                PropTypes.shape({
+                    url: PropTypes.string,
+                })
+            ),
+        }),
+    }),
 };
 
 export default MusicCard;

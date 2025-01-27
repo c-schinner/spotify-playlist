@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import SkeletonCard from "./SkeletonCard";
 
 const Sideboard = ({ selectedSongs }) => {
+    console.log(selectedSongs);
+
     return (
         <div className="h-full flex flex-col px-4 w-full">
             <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
@@ -17,8 +19,8 @@ const Sideboard = ({ selectedSongs }) => {
                     {!selectedSongs || selectedSongs.length === 0 ? (
                         <SkeletonCard />
                     ) : (
-                        selectedSongs.map((song) => (
-                            <MusicCard key={song.id} song={song} />
+                        selectedSongs.map((song, index) => (
+                            <MusicCard key={index} song={song} />
                         ))
                     )}
                     <div className="flex flex-col pl-8 pt-8">

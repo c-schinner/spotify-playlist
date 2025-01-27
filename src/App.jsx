@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 function App() {
     const [accessToken, setAccessToken] = useState(null);
     const [newReleases, setNewReleases] = useState([]);
-    const [selectedSongs, setSelectedSongs] = useState([]);
+    const [selectedSongs, setSelectedSongs] = useState(null);
 
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
@@ -60,8 +60,8 @@ function App() {
         }
     }, [accessToken]);
 
-    const handleAddToSideboard = (songs) => {
-        setSelectedSongs((prevSongs) => [...prevSongs, songs]);
+    const handleAddToSideboard = (song) => {
+        setSelectedSongs(song);
     };
 
     useEffect(() => {
