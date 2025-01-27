@@ -16,12 +16,10 @@ const Sideboard = ({ selectedSongs }) => {
                     <p>Selected Song:</p>
                 </div>
                 <div className="flex flex-row">
-                    {!selectedSongs || selectedSongs.length === 0 ? (
+                    {!selectedSongs ? (
                         <SkeletonCard />
                     ) : (
-                        selectedSongs.map((song, index) => (
-                            <MusicCard key={index} song={song} />
-                        ))
+                        <MusicCard song={selectedSongs} />
                     )}
                     <div className="flex flex-col pl-8 pt-8">
                         <button className="btn btn-outline btn-success">
@@ -47,7 +45,7 @@ const Sideboard = ({ selectedSongs }) => {
 };
 
 Sideboard.propTypes = {
-    selectedSongs: PropTypes.array,
+    selectedSongs: PropTypes.object,
 };
 
 export default Sideboard;
