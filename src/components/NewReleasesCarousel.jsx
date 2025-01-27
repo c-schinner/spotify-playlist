@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const NewReleasesCarousel = ({ data }) => {
+const NewReleasesCarousel = ({ data, onAddToSideboard }) => {
     return (
         <div className="carousel carousel-center bg-neutral rounded-box w-full max-h-[250px]">
             {data &&
@@ -14,7 +14,10 @@ const NewReleasesCarousel = ({ data }) => {
                             alt={release.name}
                             className="rounded-box w-[200px] h-[200px] object-cover"
                         />
-                        <button className="btn btn-outline btn-info h-2 absolute top-2 right-2">
+                        <button
+                            onClick={() => onAddToSideboard(release)}
+                            className="btn btn-outline btn-info h-2 absolute top-2 right-2"
+                        >
                             +
                         </button>
                     </div>
@@ -25,6 +28,7 @@ const NewReleasesCarousel = ({ data }) => {
 
 NewReleasesCarousel.propTypes = {
     data: PropTypes.array,
+    onAddToSideboard: PropTypes.func.isRequired,
 };
 
 export default NewReleasesCarousel;

@@ -2,8 +2,10 @@ import LibraryBar from "./LibraryBar";
 import LibraryCard from "./LibraryCard";
 import MusicCard from "./MusicCard";
 import { CiPlay1 } from "react-icons/ci";
+import PropTypes from "prop-types";
+import SkeletonCard from "./SkeletonCard";
 
-const Sideboard = () => {
+const Sideboard = ({ selectedSongs }) => {
     return (
         <div className="h-full flex flex-col px-4 w-full">
             <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
@@ -12,7 +14,13 @@ const Sideboard = () => {
                     <p>Selected Song:</p>
                 </div>
                 <div className="flex flex-row">
-                    <MusicCard />
+                    {!selectedSongs || selectedSongs.length === 0 ? (
+                        <SkeletonCard />
+                    ) : (
+                        selectedSongs.map((song) => (
+                            <MusicCard key={song.id} song={song} />
+                        ))
+                    )}
                     <div className="flex flex-col pl-8 pt-8">
                         <button className="btn btn-outline btn-success">
                             <CiPlay1 size={24} />
@@ -34,6 +42,10 @@ const Sideboard = () => {
             </div>
         </div>
     );
+};
+
+Sideboard.propTypes = {
+    selectedSongs: PropTypes.array,
 };
 
 export default Sideboard;

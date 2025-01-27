@@ -5,7 +5,7 @@ import SkeletonCard from "./SkeletonCard";
 
 import PropTypes from "prop-types";
 
-const RightSideboard = ({ newReleases, accessToken }) => {
+const RightSideboard = ({ newReleases, accessToken, onAddToSideboard }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [searchResults, setSearchResults] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
@@ -68,12 +68,18 @@ const RightSideboard = ({ newReleases, accessToken }) => {
                         <SkeletonCard />
                     </div>
                 ) : (
-                    <SearchResultCarousel data={searchResults} />
+                    <SearchResultCarousel
+                        data={searchResults}
+                        onAddToSideboard={onAddToSideboard}
+                    />
                 )}
             </div>
             <div className="mb-2">
                 <p>New Releases.</p>
-                <NewReleasesCarousel data={newReleases} />
+                <NewReleasesCarousel
+                    data={newReleases}
+                    onAddToSideboard={onAddToSideboard}
+                />
             </div>
         </div>
     );
@@ -83,6 +89,7 @@ RightSideboard.propTypes = {
     searchResults: PropTypes.array,
     newReleases: PropTypes.array,
     accessToken: PropTypes.string,
+    onAddToSideboard: PropTypes.func.isRequired,
 };
 
 export default RightSideboard;

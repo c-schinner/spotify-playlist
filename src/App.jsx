@@ -8,6 +8,7 @@ import { useState, useEffect, useCallback } from "react";
 function App() {
     const [accessToken, setAccessToken] = useState(null);
     const [newReleases, setNewReleases] = useState([]);
+    const [selectedSongs, setSelectedSongs] = useState([]);
 
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
@@ -59,6 +60,10 @@ function App() {
         }
     }, [accessToken]);
 
+    const handleAddToSideboard = (songs) => {
+        setSelectedSongs((prevSongs) => [...prevSongs, songs]);
+    };
+
     useEffect(() => {
         fetchAccessToken();
     }, []);
@@ -76,12 +81,13 @@ function App() {
             </div>
             <div className="grid grid-cols-2 gap-0 w-full h-full">
                 <div className="w-full h-full">
-                    <Sideboard />
+                    <Sideboard selectedSongs={selectedSongs} />
                 </div>
                 <div className="w-full h-full">
                     <RightSideboard
                         newReleases={newReleases}
                         accessToken={accessToken}
+                        onAddToSideboard={handleAddToSideboard}
                     />
                 </div>
             </div>

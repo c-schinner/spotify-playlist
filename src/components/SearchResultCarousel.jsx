@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const SearchResultCarousel = ({ data }) => {
+const SearchResultCarousel = ({ data, onAddToSideboard }) => {
     console.log("Rendering SearchResultCarousel with data:", data);
 
     return (
@@ -27,7 +27,10 @@ const SearchResultCarousel = ({ data }) => {
                                 {item.artists[0]?.name}
                             </p>
                         ) : null}
-                        <button className="btn btn-outline btn-info h-2 absolute top-2">
+                        <button
+                            onClick={() => onAddToSideboard(item)}
+                            className="btn btn-outline btn-info h-2 absolute top-2"
+                        >
                             +
                         </button>
                     </div>
@@ -39,6 +42,7 @@ const SearchResultCarousel = ({ data }) => {
 
 SearchResultCarousel.propTypes = {
     data: PropTypes.array,
+    onAddToSideboard: PropTypes.func.isRequired,
 };
 
 export default SearchResultCarousel;
