@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { db, auth } from "../FirebaseConfig";
 import { collection, query, getDocs } from "firebase/firestore";
 
-const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
+const LibraryBar = ({ onSavePlaylist, onDeletePlaylist }) => {
     const [userPlaylists, setUserPlaylists] = useState([]);
 
     useEffect(() => {
@@ -40,6 +40,9 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
 
     const handleDelete = (playlistId) => {
         onDeletePlaylist(playlistId);
+        setUserPlaylists((prevPlaylists) =>
+            prevPlaylists.filter((playlist) => playlist.id !== playlistId)
+        );
     };
 
     return (
@@ -66,8 +69,8 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     >
-                        {playlists.map((playlist, index) => (
-                            <li key={index}>
+                        {userPlaylists.map((playlist) => (
+                            <li key={playlist.id}>
                                 <a>{playlist.name}</a>
                                 <button
                                     onClick={() => handleDelete(playlist.id)}
