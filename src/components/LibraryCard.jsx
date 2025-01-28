@@ -3,31 +3,35 @@ import PropTypes from "prop-types";
 
 const LibraryCard = ({ playlist }) => {
     return (
-        <div className="carousel carousel-center rounded-box">
+        <div className="carousel carousel-center rounded-box w-full">
             {playlist.length === 0 ? (
-                <div className="card bg-base-100 image-full w-full lg:w-96 xl:w-[400px] shadow-xl">
+                <div className="card bg-base-100 image-full shadow-xl">
                     <div className="card-body relative">
                         <SkeletonCard />
                     </div>
                 </div>
             ) : (
                 playlist.map((song) => (
-                    <div
-                        className="card bg-base-100 image-full w-full lg:w-96 xl:w-[400px] shadow-xl"
-                        key={song.id}
-                    >
-                        <figure>
-                            <img
-                                src={
-                                    song.album?.images[0]?.url ||
-                                    "default-image-url"
-                                }
-                                alt={song.name}
-                            />
-                        </figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{song.name}</h2>
-                            <p>Artist: {song.artists[0]?.name}</p>
+                    <div className="carousel=item relative" key={song.id}>
+                        <div className="card bg-base-100 w-[200px] h-[200px] rounded-box shadow-xl overflow-hidden">
+                            <figure className="w-full h-full">
+                                <img
+                                    className="w-full h-full object-cover"
+                                    src={
+                                        song.album?.images[0]?.url ||
+                                        "default-image-url"
+                                    }
+                                    alt={song.name}
+                                />
+                            </figure>
+                            <div className="card-body p-2">
+                                <h2 className="text-sm font-semibold text-center">
+                                    {song.name}
+                                </h2>
+                                <p className="text-xs text-center">
+                                    {song.artists[0]?.name}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 ))
