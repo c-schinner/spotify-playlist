@@ -19,7 +19,6 @@ const NewReleasesCarousel = ({ data, onAddToSideboard }) => {
                                 onAddToSideboard({
                                     ...release,
                                     album: {
-                                        name: release.name,
                                         images: release.images,
                                     },
                                 })
