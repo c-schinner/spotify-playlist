@@ -5,34 +5,33 @@ const SearchResultCarousel = ({ data, onAddToSideboard }) => {
 
     return (
         <div className="carousel carousel-center bg-neutral rounded-box w-full max-h-[250px]">
-            {data.map((item) => (
-                <div key={item.id} className="carousel-item relative">
-                    {item.album ? (
-                        <img
-                            className="rounded-box w-[200px] h-[200px] object-cover"
-                            src={
-                                item.album?.images[0]?.url ||
-                                "default-image-url"
-                            }
-                            alt={item.name}
-                        />
-                    ) : null}
-                    <div className="flex flex-col items-center justify-center p-2">
-                        <p className="mt-2 text-center text-sm font-semibold">
-                            {item.name}
-                        </p>
-
-                        {item.artists ? (
-                            <p className="text-center text-xs">
-                                {item.artists[0]?.name}
+            {data.map((song) => (
+                <div className="carousel-item relative" key={song.id}>
+                    <div className="card bg-base-100 w-[200px] h-[200px] rounded-box shadow-xl overflow-hidden">
+                        <figure className="w-full h-full">
+                            <img
+                                className="w-full h-full object-cover"
+                                src={
+                                    song.album?.images[0]?.url ||
+                                    "default-image-url"
+                                }
+                                alt={song.name}
+                            />
+                        </figure>
+                        <div className="card-body p-2">
+                            <h2 className="text-sm font-semibold text-center">
+                                {song.name}
+                            </h2>
+                            <p className="text-xs text-center">
+                                {song.artists[0]?.name}
                             </p>
-                        ) : null}
-                        <button
-                            onClick={() => onAddToSideboard(item)}
-                            className="btn btn-outline btn-info h-2 absolute top-2"
-                        >
-                            +
-                        </button>
+                            <button
+                                onClick={() => onAddToSideboard(song)}
+                                className="btn btn-outline btn-info h-2 absolute top-2 right-2"
+                            >
+                                +
+                            </button>
+                        </div>
                     </div>
                 </div>
             ))}
