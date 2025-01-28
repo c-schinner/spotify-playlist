@@ -34,7 +34,7 @@ const LibraryBar = () => {
                         </li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-sm">Library</a>
+                <p className="text-sm p-4">Library</p>
             </div>
             <input
                 type="text"
