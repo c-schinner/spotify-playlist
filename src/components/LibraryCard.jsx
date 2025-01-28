@@ -1,7 +1,7 @@
 import SkeletonCard from "./SkeletonCard";
 import PropTypes from "prop-types";
 
-const LibraryCard = ({ playlist }) => {
+const LibraryCard = ({ playlist, onAddToSideboard }) => {
     return (
         <div className="carousel carousel-center rounded-box w-full">
             {playlist.length === 0 ? (
@@ -31,6 +31,19 @@ const LibraryCard = ({ playlist }) => {
                                 <p className="text-xs text-center">
                                     {song.artists[0]?.name}
                                 </p>
+                                <button
+                                    onClick={() =>
+                                        onAddToSideboard({
+                                            ...song,
+                                            album: {
+                                                images: song.images,
+                                            },
+                                        })
+                                    }
+                                    className="btn btn-outline btn-info h-2 absolute top-2 right-2"
+                                >
+                                    +
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -41,6 +54,7 @@ const LibraryCard = ({ playlist }) => {
 };
 
 LibraryCard.propTypes = {
+    onAddToSideboard: PropTypes.func.isRequired,
     playlist: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,

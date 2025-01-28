@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import SkeletonCard from "./SkeletonCard";
 import { useState } from "react";
 
-const Sideboard = ({ selectedSongs }) => {
+const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     console.log("Selected song data:", selectedSongs);
 
     const [playlist, setPlaylist] = useState([]);
@@ -58,7 +58,10 @@ const Sideboard = ({ selectedSongs }) => {
                     <p>Current Playlist:</p>
                 </div>
                 <div className="overflow-x-auto">
-                    <LibraryCard playlist={playlist} />
+                    <LibraryCard
+                        onAddToSideboard={onAddToSideboard}
+                        playlist={playlist}
+                    />
                 </div>
             </div>
         </div>
@@ -67,6 +70,7 @@ const Sideboard = ({ selectedSongs }) => {
 
 Sideboard.propTypes = {
     selectedSongs: PropTypes.object,
+    onAddToSideboard: PropTypes.func.isRequired,
 };
 
 export default Sideboard;

@@ -82,7 +82,10 @@ function App() {
             </div>
             <div className="grid grid-cols-2 gap-0 w-full h-full">
                 <div className="w-full h-full">
-                    <Sideboard selectedSongs={selectedSongs} />
+                    <Sideboard
+                        onAddToSideboard={handleAddToSideboard}
+                        selectedSongs={selectedSongs}
+                    />
                 </div>
                 <div className="w-full h-full">
                     <RightSideboard
