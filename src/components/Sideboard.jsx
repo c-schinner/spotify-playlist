@@ -4,9 +4,18 @@ import MusicCard from "./MusicCard";
 import { CiPlay1 } from "react-icons/ci";
 import PropTypes from "prop-types";
 import SkeletonCard from "./SkeletonCard";
+import { useState } from "react";
 
 const Sideboard = ({ selectedSongs }) => {
     console.log("Selected song data:", selectedSongs);
+
+    const [playlist, setPlaylist] = useState([]);
+
+    const handleSaveSong = (song) => {
+        if (!playlist.some((s) => s.id === song.id)) {
+            setPlaylist((prevPlaylist) => [...prevPlaylist, song]);
+        }
+    };
 
     return (
         <div className="h-full flex flex-col px-4 w-full">
@@ -28,7 +37,10 @@ const Sideboard = ({ selectedSongs }) => {
                         <button className="btn btn-outline btn-error mt-8">
                             Delete
                         </button>
-                        <button className="btn btn-outline btn-accent mt-8">
+                        <button
+                            onClick={() => handleSaveSong(selectedSongs)}
+                            className="btn btn-outline btn-accent mt-8"
+                        >
                             Save
                         </button>
                     </div>
@@ -37,7 +49,7 @@ const Sideboard = ({ selectedSongs }) => {
                     <p>Current Playlist:</p>
                 </div>
                 <div className="overflow-x-auto">
-                    <LibraryCard />
+                    <LibraryCard playlist={playlist} />
                 </div>
             </div>
         </div>
