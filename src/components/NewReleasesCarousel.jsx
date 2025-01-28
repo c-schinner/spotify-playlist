@@ -15,7 +15,15 @@ const NewReleasesCarousel = ({ data, onAddToSideboard }) => {
                             className="rounded-box w-[200px] h-[200px] object-cover"
                         />
                         <button
-                            onClick={() => onAddToSideboard(release)}
+                            onClick={() =>
+                                onAddToSideboard({
+                                    ...release,
+                                    album: {
+                                        name: release.name,
+                                        images: release.images,
+                                    },
+                                })
+                            }
                             className="btn btn-outline btn-info h-2 absolute top-2 right-2"
                         >
                             +

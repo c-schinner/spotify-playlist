@@ -41,7 +41,7 @@ MusicCard.propTypes = {
                     url: PropTypes.string.isRequired,
                 })
             ).isRequired,
-        }).isRequired,
+        }),
     }).isRequired,
 };
 
