@@ -17,6 +17,12 @@ const Sideboard = ({ selectedSongs }) => {
         }
     };
 
+    const handleDeleteSong = (song) => {
+        setPlaylist((prevPlaylist) =>
+            prevPlaylist.filter((s) => s.id !== song.id)
+        );
+    };
+
     return (
         <div className="h-full flex flex-col px-4 w-full">
             <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
@@ -34,7 +40,10 @@ const Sideboard = ({ selectedSongs }) => {
                         <button className="btn btn-outline btn-success">
                             <CiPlay1 size={24} />
                         </button>
-                        <button className="btn btn-outline btn-error mt-8">
+                        <button
+                            onClick={() => handleDeleteSong(selectedSongs)}
+                            className="btn btn-outline btn-error mt-8"
+                        >
                             Delete
                         </button>
                         <button
