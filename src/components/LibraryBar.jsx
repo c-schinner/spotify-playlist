@@ -34,7 +34,6 @@ const LibraryBar = () => {
                         </li>
                     </ul>
                 </div>
-                <p className="text-sm p-4">Library</p>
             </div>
             <input
                 type="text"
