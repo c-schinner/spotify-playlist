@@ -12,15 +12,17 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     const [playlist, setPlaylist] = useState([]);
 
     const handleSaveSong = (song) => {
-        if (!playlist.some((s) => s.id === song.id)) {
+        if (song && !playlist.some((s) => s.id === song.id)) {
             setPlaylist((prevPlaylist) => [...prevPlaylist, song]);
         }
     };
 
     const handleDeleteSong = (song) => {
-        setPlaylist((prevPlaylist) =>
-            prevPlaylist.filter((s) => s.id !== song.id)
-        );
+        if (song) {
+            setPlaylist((prevPlaylist) =>
+                prevPlaylist.filter((s) => s.id !== song.id)
+            );
+        }
     };
 
     return (

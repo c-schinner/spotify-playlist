@@ -36,7 +36,7 @@ const LibraryCard = ({ playlist, onAddToSideboard }) => {
                                         onAddToSideboard({
                                             ...song,
                                             album: {
-                                                images: song.images,
+                                                images: song.album?.images,
                                             },
                                         })
                                     }
