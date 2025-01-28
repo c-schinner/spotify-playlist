@@ -1,4 +1,47 @@
-const LibraryBar = () => {
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { db, auth } from "../FirebaseConfig";
+import { collection, query, getDocs } from "firebase/firestore";
+
+const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
+    const [userPlaylists, setUserPlaylists] = useState([]);
+
+    useEffect(() => {
+        const fetchUserPlaylists = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                try {
+                    const playlistRef = collection(
+                        db,
+                        "users",
+                        user.uid,
+                        "playlists"
+                    );
+                    const q = query(playlistRef);
+                    const querySnapshot = await getDocs(q);
+                    const loadedPlaylists = querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    setUserPlaylists(loadedPlaylists);
+                } catch (error) {
+                    console.error("Error fetching playlists:", error);
+                }
+            }
+        };
+
+        fetchUserPlaylists();
+    }, []);
+
+    const handleSave = () => {
+        const playlistName = document.getElementById("playlistNameInput").value;
+        onSavePlaylist(playlistName);
+    };
+
+    const handleDelete = (playlistId) => {
+        onDeletePlaylist(playlistId);
+    };
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
@@ -23,28 +66,39 @@ const LibraryBar = () => {
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     >
-                        <li>
-                            <a>Item 1</a>
-                        </li>
-                        <li>
-                            <a>Item 2</a>
-                        </li>
-                        <li>
-                            <a>Item 3</a>
-                        </li>
+                        {playlists.map((playlist, index) => (
+                            <li key={index}>
+                                <a>{playlist.name}</a>
+                                <button
+                                    onClick={() => handleDelete(playlist.id)}
+                                    className="btn btn-error btn-xs ml-2"
+                                >
+                                    Delete
+                                </button>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>
             <input
+                id="playlistNameInput"
                 type="text"
-                placeholder="Playlist"
+                placeholder="Playlist Name"
                 className="input input-bordered input-info w-full max-w-xs"
             />
             <div className="navbar-end">
-                <a className="btn">+</a>
+                <a onClick={handleSave} className="btn">
+                    Save
+                </a>
             </div>
         </div>
     );
+};
+
+LibraryBar.propTypes = {
+    onSavePlaylist: PropTypes.func.isRequired,
+    playlists: PropTypes.array.isRequired,
+    onDeletePlaylist: PropTypes.func.isRequired,
 };
 
 export default LibraryBar;

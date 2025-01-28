@@ -4,12 +4,83 @@ import MusicCard from "./MusicCard";
 import { CiPlay1 } from "react-icons/ci";
 import PropTypes from "prop-types";
 import SkeletonCard from "./SkeletonCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db, auth } from "../FirebaseConfig";
+import {
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+} from "firebase/firestore";
 
 const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     console.log("Selected song data:", selectedSongs);
 
     const [playlist, setPlaylist] = useState([]);
+    const [newPlaylist, setNewPlaylist] = useState([]);
+
+    const fetchPlaylists = async () => {
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                const playlistRef = collection(
+                    db,
+                    "users",
+                    user.uid,
+                    "playlists"
+                );
+                const querySnapshot = await getDocs(playlistRef);
+                const loadedPlaylists = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                setNewPlaylist(loadedPlaylists);
+            } catch (error) {
+                console.error("Error fetching playlists:", error);
+            }
+        }
+    };
+
+    const handleSavePlaylist = async (playlistName) => {
+        if (!playlistName || playlist.length == 0) {
+            alert("Enter a name and add songs to save the playlist.");
+            return;
+        }
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                const newPlaylist = { name: playlistName, song: playlist };
+                await addDoc(
+                    collection(db, "users", user.uid, "playlists"),
+                    newPlaylist
+                );
+                alert("Playlist saved successfully!");
+            } catch (error) {
+                console.error("Error saving playlist:", error);
+            }
+        }
+    };
+
+    const handleDeletePlaylist = async (playlistId) => {
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                const playlistRef = doc(
+                    db,
+                    "users",
+                    user.uid,
+                    "playlists",
+                    playlistId
+                );
+                await deleteDoc(playlistRef);
+                alert("Playlist deleted successfully!");
+                fetchPlaylists();
+            } catch (error) {
+                console.error("Error deleting playlist:", error);
+            }
+        }
+    };
 
     const handleSaveSong = (song) => {
         if (song && !playlist.some((s) => s.id === song.id)) {
@@ -25,10 +96,18 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
         }
     };
 
+    useEffect(() => {
+        fetchPlaylists();
+    }, []);
+
     return (
         <div className="h-full flex flex-col px-4 w-full">
             <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
-                <LibraryBar />
+                <LibraryBar
+                    onSavePlaylist={handleSavePlaylist}
+                    onDeletePlaylist={handleDeletePlaylist}
+                    playlists={newPlaylist}
+                />
                 <div>
                     <p>Selected Song:</p>
                 </div>
