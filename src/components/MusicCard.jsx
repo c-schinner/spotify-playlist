@@ -7,7 +7,7 @@ const MusicCard = ({ song }) => {
         <div className="card bg-base-100 w-1/2 shadow-xl">
             <div className="card-body">
                 <h2 className="card-title">{song.name}</h2>
-                <p>{song.artist[0]?.name}</p>
+                <p>{song.artists[0]?.name}</p>
                 <p>{song.album?.name}</p>
             </div>
             <figure>
@@ -28,20 +28,20 @@ const MusicCard = ({ song }) => {
 
 MusicCard.propTypes = {
     song: PropTypes.shape({
-        name: PropTypes.string,
-        artist: PropTypes.arrayOf(
+        name: PropTypes.string.isRequired,
+        artists: PropTypes.arrayOf(
             PropTypes.shape({
-                name: PropTypes.string,
+                name: PropTypes.string.isRequired,
             })
         ),
         album: PropTypes.shape({
-            name: PropTypes.string,
+            name: PropTypes.string.isRequired,
             images: PropTypes.arrayOf(
                 PropTypes.shape({
-                    url: PropTypes.string,
+                    url: PropTypes.string.isRequired,
                 })
-            ),
-        }),
+            ).isRequired,
+        }).isRequired,
     }).isRequired,
 };
 
