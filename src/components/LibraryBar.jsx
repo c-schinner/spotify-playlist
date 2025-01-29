@@ -1,39 +1,6 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { db, auth } from "../FirebaseConfig";
-import { collection, query, getDocs } from "firebase/firestore";
 
 const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
-    const [userPlaylists, setUserPlaylists] = useState([]);
-
-    useEffect(() => {
-        const fetchUserPlaylists = async () => {
-            const user = auth.currentUser;
-            if (user) {
-                try {
-                    userPlaylists;
-                    const playlistRef = collection(
-                        db,
-                        "users",
-                        user.uid,
-                        "playlists"
-                    );
-                    const q = query(playlistRef);
-                    const querySnapshot = await getDocs(q);
-                    const loadedPlaylists = querySnapshot.docs.map((doc) => ({
-                        id: doc.id,
-                        ...doc.data(),
-                    }));
-                    setUserPlaylists(loadedPlaylists);
-                } catch (error) {
-                    console.error("Error fetching playlists:", error);
-                }
-            }
-        };
-
-        fetchUserPlaylists();
-    }, []);
-
     const handleSave = () => {
         const playlistName = document.getElementById("playlistNameInput").value;
         onSavePlaylist(playlistName);
@@ -41,9 +8,6 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
 
     const handleDelete = (playlistId) => {
         onDeletePlaylist(playlistId);
-        setUserPlaylists((prevPlaylists) =>
-            prevPlaylists.filter((playlist) => playlist.id !== playlistId)
-        );
     };
 
     return (
@@ -70,7 +34,7 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
                     >
-                        {userPlaylists.map((playlist) => (
+                        {playlists.map((playlist) => (
                             <li key={playlist.id}>
                                 <a>{playlist.name}</a>
                                 <button

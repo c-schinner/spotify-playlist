@@ -135,6 +135,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                     onSavePlaylist={handleSavePlaylist}
                     onDeletePlaylist={handleDeletePlaylist}
                     playlists={newPlaylist}
+                    playlist={setPlaylist}
                 />
                 <div>
                     <p>Selected Song:</p>
