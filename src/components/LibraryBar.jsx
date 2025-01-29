@@ -11,6 +11,7 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist }) => {
             const user = auth.currentUser;
             if (user) {
                 try {
+                    userPlaylists;
                     const playlistRef = collection(
                         db,
                         "users",

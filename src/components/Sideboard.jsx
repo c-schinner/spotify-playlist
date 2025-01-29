@@ -56,6 +56,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                     newPlaylist
                 );
                 alert("Playlist saved successfully!");
+                fetchPlaylists();
             } catch (error) {
                 console.error("Error saving playlist:", error);
             }
@@ -90,9 +91,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
 
     const handleDeleteSong = (song) => {
         if (song) {
-            setPlaylist((prevPlaylist) =>
-                prevPlaylist.filter((s) => s.id !== song.id)
-            );
+            setPlaylist(playlist.filter((s) => s.id !== song.id));
         }
     };
 
