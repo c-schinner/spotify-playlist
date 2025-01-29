@@ -162,8 +162,3 @@ Sideboard.propTypes = {
 };
 
 export default Sideboard;
-
-// We have a few issues, the firebase is saving too much info in the collection
-// Check it out and get rid of unnecessary items
-// The newPlaylist/SetNewPlaylist state needs to be fixed -
-// - since we took it out of the prop for librarybar.
