@@ -12,6 +12,7 @@ import {
     getDocs,
     deleteDoc,
     doc,
+    query,
 } from "firebase/firestore";
 
 const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
@@ -94,6 +95,34 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
             setPlaylist(playlist.filter((s) => s.id !== song.id));
         }
     };
+
+    useEffect(() => {
+        const fetchUserPlaylists = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                try {
+                    newPlaylist;
+                    const playlistRef = collection(
+                        db,
+                        "users",
+                        user.uid,
+                        "playlists"
+                    );
+                    const q = query(playlistRef);
+                    const querySnapshot = await getDocs(q);
+                    const loadedPlaylists = querySnapshot.docs.map((doc) => ({
+                        id: doc.id,
+                        ...doc.data(),
+                    }));
+                    setNewPlaylist(loadedPlaylists);
+                } catch (error) {
+                    console.error("Error fetching playlists:", error);
+                }
+            }
+        };
+
+        fetchUserPlaylists();
+    }, []);
 
     useEffect(() => {
         fetchPlaylists();

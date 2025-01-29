@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { db, auth } from "../FirebaseConfig";
 import { collection, query, getDocs } from "firebase/firestore";
 
-const LibraryBar = ({ onSavePlaylist, onDeletePlaylist }) => {
+const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
     const [userPlaylists, setUserPlaylists] = useState([]);
 
     useEffect(() => {
