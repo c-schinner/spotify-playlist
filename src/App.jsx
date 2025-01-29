@@ -13,10 +13,6 @@ function App() {
     const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
     const clientSecret = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 
-    console.log(import.meta.env);
-    console.log("Client ID:", clientId);
-    console.log("Client Secret:", clientSecret);
-
     const fetchAccessToken = async () => {
         try {
             const authHeader = btoa(`${clientId}:${clientSecret}`);
@@ -37,8 +33,6 @@ function App() {
             console.error("Error fetching access token:", error);
         }
     };
-
-    console.log("Access token:", accessToken);
 
     const fetchNewReleases = useCallback(async () => {
         if (!accessToken) return;

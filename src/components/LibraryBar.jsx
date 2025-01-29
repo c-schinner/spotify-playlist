@@ -10,6 +10,8 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
         onDeletePlaylist(playlistId);
     };
 
+    console.log("Playlists in LibraryBAr:", playlists);
+
     return (
         <div className="navbar bg-base-100">
             <div className="navbar-start">
