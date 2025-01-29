@@ -19,6 +19,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
 
     const [playlist, setPlaylist] = useState([]);
     const [newPlaylist, setNewPlaylist] = useState([]);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
     const fetchPlaylists = async () => {
         const user = auth.currentUser;
@@ -83,6 +84,11 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
         }
     };
 
+    const handleSelectPlaylist = (playlist) => {
+        setSelectedPlaylist(playlist);
+        console.log("Selected Playlist:", playlist);
+    };
+
     const handleSaveSong = (song) => {
         if (song && !playlist.some((s) => s.id === song.id)) {
             setPlaylist((prevPlaylist) => [...prevPlaylist, song]);
@@ -99,8 +105,6 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
         fetchPlaylists();
     }, []);
 
-    console.log("Playlist in Sideboard:", newPlaylist);
-
     return (
         <div className="h-full flex flex-col px-4 w-full">
             <div className="flex-1 space-y-2 min-w-[150px] min-h-[250px] sm:w-full sm:h-full">
@@ -108,6 +112,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                     onSavePlaylist={handleSavePlaylist}
                     onDeletePlaylist={handleDeletePlaylist}
                     playlists={newPlaylist}
+                    onSelectPlaylist={handleSelectPlaylist}
                 />
                 <div>
                     <p>Selected Song:</p>
@@ -143,6 +148,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                     <LibraryCard
                         onAddToSideboard={onAddToSideboard}
                         playlist={playlist}
+                        selectedPlaylist={selectedPlaylist}
                     />
                 </div>
             </div>

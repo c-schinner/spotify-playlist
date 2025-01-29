@@ -1,17 +1,20 @@
 import SkeletonCard from "./SkeletonCard";
 import PropTypes from "prop-types";
 
-const LibraryCard = ({ playlist, onAddToSideboard }) => {
+const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
+    const displayPlaylist =
+        selectedPlaylist.length > 0 ? selectedPlaylist : playlist;
+
     return (
         <div className="carousel carousel-center rounded-box w-full">
-            {playlist.length === 0 ? (
+            {displayPlaylist.length === 0 ? (
                 <div className="card bg-base-100 image-full shadow-xl">
                     <div className="card-body relative">
                         <SkeletonCard />
                     </div>
                 </div>
             ) : (
-                playlist.map((song) => (
+                displayPlaylist.map((song) => (
                     <div className="carousel=item relative" key={song.id}>
                         <div className="card bg-base-100 w-[200px] h-[200px] rounded-box shadow-xl overflow-hidden">
                             <figure className="w-full h-full">
@@ -56,6 +59,25 @@ const LibraryCard = ({ playlist, onAddToSideboard }) => {
 LibraryCard.propTypes = {
     onAddToSideboard: PropTypes.func.isRequired,
     playlist: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            artists: PropTypes.arrayOf(
+                PropTypes.shape({
+                    name: PropTypes.string.isRequired,
+                })
+            ).isRequired,
+            album: PropTypes.shape({
+                name: PropTypes.string,
+                images: PropTypes.arrayOf(
+                    PropTypes.shape({
+                        url: PropTypes.string,
+                    })
+                ),
+            }),
+        })
+    ).isRequired,
+    selectedPlaylist: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,

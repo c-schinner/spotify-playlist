@@ -1,6 +1,11 @@
 import PropTypes from "prop-types";
 
-const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
+const LibraryBar = ({
+    onSavePlaylist,
+    onDeletePlaylist,
+    playlists,
+    onSelectPlaylist,
+}) => {
     const handleSave = () => {
         const playlistName = document.getElementById("playlistNameInput").value;
         onSavePlaylist(playlistName);
@@ -38,7 +43,9 @@ const LibraryBar = ({ onSavePlaylist, onDeletePlaylist, playlists }) => {
                     >
                         {playlists.map((playlist) => (
                             <li key={playlist.id}>
-                                <a>{playlist.name}</a>
+                                <a onClick={() => onSelectPlaylist(playlist)}>
+                                    {playlist.name}
+                                </a>
                                 <button
                                     onClick={() => handleDelete(playlist.id)}
                                     className="btn btn-error btn-xs ml-2"
@@ -69,6 +76,7 @@ LibraryBar.propTypes = {
     onSavePlaylist: PropTypes.func.isRequired,
     playlists: PropTypes.array.isRequired,
     onDeletePlaylist: PropTypes.func.isRequired,
+    onSelectPlaylist: PropTypes.func.isRequired,
 };
 
 export default LibraryBar;
