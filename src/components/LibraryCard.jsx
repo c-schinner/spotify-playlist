@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 
 const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
     const displayPlaylist =
-        selectedPlaylist.length > 0 ? selectedPlaylist : playlist;
+        selectedPlaylist && selectedPlaylist.length > 0
+            ? selectedPlaylist
+            : playlist;
 
     return (
         <div className="carousel carousel-center rounded-box w-full">
@@ -32,7 +34,9 @@ const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
                                     {song.name}
                                 </h2>
                                 <p className="text-xs text-center">
-                                    {song.artists[0]?.name}
+                                    {song.artists && song.artists[0]
+                                        ? song.artists[0]?.name
+                                        : "Unknown Artist"}
                                 </p>
                                 <button
                                     onClick={() =>

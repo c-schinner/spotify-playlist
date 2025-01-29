@@ -85,7 +85,11 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     };
 
     const handleSelectPlaylist = (playlist) => {
-        setSelectedPlaylist([playlist]);
+        if (playlist && playlist.songs) {
+            setSelectedPlaylist([playlist]);
+        } else {
+            setSelectedPlaylist([]);
+        }
         console.log("Selected Playlist:", playlist);
     };
 
