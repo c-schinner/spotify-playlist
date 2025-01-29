@@ -1,9 +1,11 @@
 import SkeletonCard from "./SkeletonCard";
 import PropTypes from "prop-types";
 
-const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
+const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist = [] }) => {
     const displayPlaylist =
-        selectedPlaylist.length > 0 ? selectedPlaylist : playlist;
+        Array.isArray(selectedPlaylist) && selectedPlaylist.length > 0
+            ? selectedPlaylist
+            : playlist;
 
     return (
         <div className="carousel carousel-center rounded-box w-full">
@@ -95,7 +97,7 @@ LibraryCard.propTypes = {
                 ),
             }),
         })
-    ).isRequired,
+    ),
 };
 
 export default LibraryCard;
