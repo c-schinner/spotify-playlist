@@ -83,7 +83,7 @@ LibraryCard.propTypes = {
             name: PropTypes.string.isRequired,
             artists: PropTypes.arrayOf(
                 PropTypes.shape({
-                    name: PropTypes.string.isRequired,
+                    name: PropTypes.string,
                 })
             ).isRequired,
             album: PropTypes.shape({
