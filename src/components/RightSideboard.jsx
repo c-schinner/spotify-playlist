@@ -62,7 +62,7 @@ const RightSideboard = ({ newReleases, accessToken, onAddToSideboard }) => {
                 </div>
             </div>
             <div className="mb-2">
-                <p>Your Search Results...</p>
+                <p className="p-2">Your Search Results...</p>
                 {!hasSearched ? (
                     <div className="p-2 mt-2">
                         <SkeletonCard />
@@ -74,8 +74,8 @@ const RightSideboard = ({ newReleases, accessToken, onAddToSideboard }) => {
                     />
                 )}
             </div>
-            <div className="mb-2">
-                <p>New Releases.</p>
+            <div className="mb-2 mt-4">
+                <p className="p-2">New Releases.</p>
                 <NewReleasesCarousel
                     data={newReleases}
                     onAddToSideboard={onAddToSideboard}
