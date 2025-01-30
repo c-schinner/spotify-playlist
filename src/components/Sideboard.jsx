@@ -19,7 +19,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
 
     const [playlist, setPlaylist] = useState([]);
     const [newPlaylist, setNewPlaylist] = useState([]);
-    const [selectedPlaylist, setSelectedPlaylist] = useState([]);
+    const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
     const fetchPlaylists = async () => {
         const user = auth.currentUser;
@@ -84,11 +84,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     };
 
     const handleSelectPlaylist = (playlist) => {
-        if (playlist && playlist.songs) {
-            setSelectedPlaylist(playlist.song);
-        } else {
-            setSelectedPlaylist([]);
-        }
+        setSelectedPlaylist(playlist);
         console.log("Selected Playlist:", playlist);
     };
 

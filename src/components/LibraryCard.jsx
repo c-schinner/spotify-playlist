@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
     const displayPlaylist =
-        Array.isArray(selectedPlaylist) && selectedPlaylist.length > 0
-            ? selectedPlaylist
+        selectedPlaylist && Array.isArray(selectedPlaylist.song)
+            ? selectedPlaylist.song
             : playlist;
 
     return (
@@ -17,7 +17,7 @@ const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
                 </div>
             ) : (
                 displayPlaylist.map((song) => (
-                    <div className="carousel=item relative" key={song.id}>
+                    <div className="carousel-item relative" key={song.id}>
                         <div className="card bg-base-100 w-[200px] h-[200px] rounded-box shadow-xl overflow-hidden">
                             <figure className="w-full h-full">
                                 <img
@@ -70,7 +70,7 @@ LibraryCard.propTypes = {
                 PropTypes.shape({
                     name: PropTypes.string.isRequired,
                 })
-            ).isRequired,
+            ),
             album: PropTypes.shape({
                 name: PropTypes.string,
                 images: PropTypes.arrayOf(
@@ -81,25 +81,29 @@ LibraryCard.propTypes = {
             }),
         })
     ).isRequired,
-    selectedPlaylist: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            artists: PropTypes.arrayOf(
-                PropTypes.shape({
-                    name: PropTypes.string,
-                })
-            ).isRequired,
-            album: PropTypes.shape({
-                name: PropTypes.string,
-                images: PropTypes.arrayOf(
+    selectedPlaylist: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        song: PropTypes.arrayOf(
+            PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                name: PropTypes.string.isRequired,
+                artists: PropTypes.arrayOf(
                     PropTypes.shape({
-                        url: PropTypes.string,
+                        name: PropTypes.string,
                     })
                 ),
-            }),
-        })
-    ),
+                album: PropTypes.shape({
+                    name: PropTypes.string,
+                    images: PropTypes.arrayOf(
+                        PropTypes.shape({
+                            url: PropTypes.string,
+                        })
+                    ),
+                }),
+            })
+        ).isRequired,
+    }),
 };
 
 export default LibraryCard;
