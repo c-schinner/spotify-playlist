@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const LibraryCard = ({ playlist, onAddToSideboard, selectedPlaylist }) => {
     const displayPlaylist =
-        selectedPlaylist && selectedPlaylist.length > 0
+        Array.isArray(selectedPlaylist) && selectedPlaylist.length > 0
             ? selectedPlaylist
             : playlist;
 
