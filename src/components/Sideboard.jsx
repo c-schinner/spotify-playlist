@@ -21,25 +21,39 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     const [newPlaylist, setNewPlaylist] = useState([]);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
-    const fetchPlaylists = async () => {
-        const user = auth.currentUser;
-        if (!user) return;
-
-        try {
-            const playlistRef = collection(db, "users", user.uid, "playlists");
-            const querySnapshot = await getDocs(playlistRef);
-            const loadedPlaylists = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
-            setNewPlaylist(loadedPlaylists);
-        } catch (error) {
-            console.error("Error fetching playlists:", error);
-        }
-    };
-
     useEffect(() => {
+        let isMounted = true;
+
+        const fetchPlaylists = async () => {
+            if (newPlaylist.length > 0) return;
+
+            const user = auth.currentUser;
+            if (!user) return;
+
+            try {
+                const playlistRef = collection(
+                    db,
+                    "users",
+                    user.uid,
+                    "playlists"
+                );
+                const querySnapshot = await getDocs(playlistRef);
+                const loadedPlaylists = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
+                    ...doc.data(),
+                }));
+                if (isMounted) {
+                    setNewPlaylist(loadedPlaylists);
+                }
+            } catch (error) {
+                console.error("Error fetching playlists:", error);
+            }
+        };
         fetchPlaylists();
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const handleSavePlaylist = async (playlistName) => {
@@ -56,7 +70,6 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                     newPlaylist
                 );
                 alert("Playlist saved successfully!");
-                fetchPlaylists();
             } catch (error) {
                 console.error("Error saving playlist:", error);
             }
@@ -76,7 +89,6 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                 );
                 await deleteDoc(playlistRef);
                 alert("Playlist deleted successfully!");
-                fetchPlaylists();
             } catch (error) {
                 console.error("Error deleting playlist:", error);
             }
@@ -84,6 +96,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     };
 
     const handleSelectPlaylist = (playlist) => {
+        if (!playlist || !playlist.song) return;
         setSelectedPlaylist(playlist);
         console.log("Selected Playlist:", playlist);
     };
