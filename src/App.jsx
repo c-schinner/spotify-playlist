@@ -79,7 +79,6 @@ function App() {
                     <Sideboard
                         onAddToSideboard={handleAddToSideboard}
                         selectedSongs={selectedSongs}
-                        accessToken={accessToken}
                     />
                 </div>
                 <div className="w-full h-full">

@@ -14,15 +14,12 @@ import {
     doc,
 } from "firebase/firestore";
 
-const Sideboard = ({ selectedSongs, onAddToSideboard, accessToken }) => {
+const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     console.log("Selected song data:", selectedSongs);
 
     const [playlist, setPlaylist] = useState([]);
     const [newPlaylist, setNewPlaylist] = useState([]);
     const [selectedPlaylist, setSelectedPlaylist] = useState([]);
-
-    const [player, setPlayer] = useState(null);
-    const [deviceId, setDeviceId] = useState(null);
 
     useEffect(() => {
         fetchPlaylists();
@@ -47,65 +44,6 @@ const Sideboard = ({ selectedSongs, onAddToSideboard, accessToken }) => {
             } catch (error) {
                 console.error("Error fetching playlists:", error);
             }
-        }
-    };
-
-    useEffect(() => {
-        if (accessToken) {
-            window.onSpotifyWebPlaybackSDKReady = () => {
-                const newPlayer = new window.Spotify.Player({
-                    name: "My Web Player",
-                    getOAuthToken: (cb) => cb(accessToken),
-                    volume: 0.5,
-                });
-
-                newPlayer.addListener("ready", ({ device_id }) => {
-                    console.log(
-                        "Spotify Player Ready with Device ID",
-                        device_id
-                    );
-                    setDeviceId(device_id);
-                });
-
-                newPlayer.addListener("not_ready", ({ device_id }) => {
-                    console.log("Device ID has gone offline", device_id);
-                });
-
-                newPlayer.connect();
-                setPlayer(newPlayer);
-            };
-        }
-
-        return () => {
-            if (player) {
-                player.disconnect();
-            }
-        };
-    }, [accessToken]);
-
-    const handlePlaySong = async (trackUri) => {
-        if (!deviceId || !accessToken) {
-            console.error("Spotify device is not initialized yet.");
-            return;
-        }
-
-        try {
-            await fetch(
-                `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        uris: [trackUri],
-                    }),
-                }
-            );
-            console.log("Playing track:", trackUri);
-        } catch (error) {
-            console.error("Error playing track:", error);
         }
     };
 
@@ -190,10 +128,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard, accessToken }) => {
                         <MusicCard song={selectedSongs} />
                     )}
                     <div className="flex flex-col pl-8 pt-8">
-                        <button
-                            onClick={() => handlePlaySong(selectedSongs.uri)}
-                            className="btn btn-outline btn-success"
-                        >
+                        <button className="btn btn-outline btn-success">
                             <CiPlay1 size={24} />
                         </button>
                         <button
@@ -228,7 +163,6 @@ const Sideboard = ({ selectedSongs, onAddToSideboard, accessToken }) => {
 Sideboard.propTypes = {
     selectedSongs: PropTypes.object,
     onAddToSideboard: PropTypes.func.isRequired,
-    accessToken: PropTypes.string,
 };
 
 export default Sideboard;
