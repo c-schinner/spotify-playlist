@@ -220,3 +220,8 @@ Sideboard.propTypes = {
 };
 
 export default Sideboard;
+
+// ISSUES:
+// When adding a new song to the prev playlist none of the info renders
+// When deleting a song from a previous playlist, the entire playlist will delete form the librarycard
+// Everytime I try to fix a bug, a fuck ton more come up
