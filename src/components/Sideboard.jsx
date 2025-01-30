@@ -21,31 +21,26 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     const [newPlaylist, setNewPlaylist] = useState([]);
     const [selectedPlaylist, setSelectedPlaylist] = useState([]);
 
+    const fetchPlaylists = async () => {
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+            const playlistRef = collection(db, "users", user.uid, "playlists");
+            const querySnapshot = await getDocs(playlistRef);
+            const loadedPlaylists = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setNewPlaylist(loadedPlaylists);
+        } catch (error) {
+            console.error("Error fetching playlists:", error);
+        }
+    };
+
     useEffect(() => {
         fetchPlaylists();
     }, []);
-
-    const fetchPlaylists = async () => {
-        const user = auth.currentUser;
-        if (user) {
-            try {
-                const playlistRef = collection(
-                    db,
-                    "users",
-                    user.uid,
-                    "playlists"
-                );
-                const querySnapshot = await getDocs(playlistRef);
-                const loadedPlaylists = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                setNewPlaylist(loadedPlaylists);
-            } catch (error) {
-                console.error("Error fetching playlists:", error);
-            }
-        }
-    };
 
     const handleSavePlaylist = async (playlistName) => {
         if (!playlistName || playlist.length == 0) {
