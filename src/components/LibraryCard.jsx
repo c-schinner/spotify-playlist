@@ -64,11 +64,11 @@ LibraryCard.propTypes = {
     onAddToSideboard: PropTypes.func.isRequired,
     playlist: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
+            id: PropTypes.string,
+            name: PropTypes.string,
             artists: PropTypes.arrayOf(
                 PropTypes.shape({
-                    name: PropTypes.string.isRequired,
+                    name: PropTypes.string,
                 })
             ),
             album: PropTypes.shape({
@@ -82,12 +82,12 @@ LibraryCard.propTypes = {
         })
     ).isRequired,
     selectedPlaylist: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
+        id: PropTypes.string,
+        name: PropTypes.string,
         song: PropTypes.arrayOf(
             PropTypes.shape({
-                id: PropTypes.string.isRequired,
-                name: PropTypes.string.isRequired,
+                id: PropTypes.string,
+                name: PropTypes.string,
                 artists: PropTypes.arrayOf(
                     PropTypes.shape({
                         name: PropTypes.string,
@@ -102,7 +102,7 @@ LibraryCard.propTypes = {
                     ),
                 }),
             })
-        ).isRequired,
+        ),
     }),
 };
 

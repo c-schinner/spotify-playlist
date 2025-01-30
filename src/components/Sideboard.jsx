@@ -21,39 +21,28 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     const [newPlaylist, setNewPlaylist] = useState([]);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
 
+    const fetchPlaylists = async () => {
+        if (newPlaylist.length > 0) return;
+
+        const user = auth.currentUser;
+        if (!user) return;
+
+        try {
+            const playlistRef = collection(db, "users", user.uid, "playlists");
+            const querySnapshot = await getDocs(playlistRef);
+            const loadedPlaylists = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            setNewPlaylist(loadedPlaylists);
+        } catch (error) {
+            console.error("Error fetching playlists:", error);
+        }
+    };
+
     useEffect(() => {
-        let isMounted = true;
-
-        const fetchPlaylists = async () => {
-            if (newPlaylist.length > 0) return;
-
-            const user = auth.currentUser;
-            if (!user) return;
-
-            try {
-                const playlistRef = collection(
-                    db,
-                    "users",
-                    user.uid,
-                    "playlists"
-                );
-                const querySnapshot = await getDocs(playlistRef);
-                const loadedPlaylists = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }));
-                if (isMounted) {
-                    setNewPlaylist(loadedPlaylists);
-                }
-            } catch (error) {
-                console.error("Error fetching playlists:", error);
-            }
-        };
         fetchPlaylists();
-
-        return () => {
-            isMounted = false;
-        };
     }, []);
 
     const handleSavePlaylist = async (playlistName) => {
@@ -70,6 +59,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                     newPlaylist
                 );
                 alert("Playlist saved successfully!");
+                fetchPlaylists();
             } catch (error) {
                 console.error("Error saving playlist:", error);
             }
@@ -89,6 +79,7 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
                 );
                 await deleteDoc(playlistRef);
                 alert("Playlist deleted successfully!");
+                fetchPlaylists();
             } catch (error) {
                 console.error("Error deleting playlist:", error);
             }
@@ -97,20 +88,79 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
 
     const handleSelectPlaylist = (playlist) => {
         if (!playlist || !playlist.song) return;
-        setSelectedPlaylist(playlist);
+        setSelectedPlaylist({
+            ...playlist,
+            song: playlist.song || [],
+        });
         console.log("Selected Playlist:", playlist);
     };
 
     const handleSaveSong = (song) => {
-        if (song && !playlist.some((s) => s.id === song.id)) {
-            setPlaylist((prevPlaylist) => [...prevPlaylist, song]);
-        }
+        const artistName =
+            song.artists && song.artists.length > 0
+                ? song.artists[0]?.name
+                : "Unkown Artist";
+
+        const albumImage =
+            song.album?.images && song.album.images.length > 0
+                ? song.album.images[0].url
+                : "default-image-url";
+
+        const simplifiedSong = {
+            artistName,
+            songName: song.name,
+            albumName: song.album?.name || "Unknown Album",
+            albumImage,
+        };
+
+        setPlaylist((prevPlaylist) => {
+            if (
+                !prevPlaylist.some(
+                    (s) => s.songName === simplifiedSong.songName
+                )
+            ) {
+                return [...prevPlaylist, simplifiedSong];
+            }
+            return prevPlaylist;
+        });
+
+        setSelectedPlaylist((prevSelectedPlaylist) => {
+            if (
+                prevSelectedPlaylist &&
+                prevSelectedPlaylist.song &&
+                !prevSelectedPlaylist.song.some(
+                    (s) => s.songName === simplifiedSong.songName
+                )
+            ) {
+                return {
+                    ...prevSelectedPlaylist,
+                    song: [...prevSelectedPlaylist.song, simplifiedSong],
+                };
+            }
+            return prevSelectedPlaylist;
+        });
     };
 
     const handleDeleteSong = (song) => {
-        if (song) {
-            setPlaylist(playlist.filter((s) => s.id !== song.id));
-        }
+        if (!song) return;
+
+        setPlaylist((prevPlaylist) => {
+            const filteredSongs = prevPlaylist.filter(
+                (s) => s.songName !== song.songName
+            );
+            return filteredSongs;
+        });
+
+        setSelectedPlaylist((prevSelectedPlaylist) => {
+            const filteredSongs = prevSelectedPlaylist.song.filter(
+                (s) => s.songName !== song.songName
+            );
+
+            return {
+                ...prevSelectedPlaylist,
+                song: filteredSongs,
+            };
+        });
     };
 
     return (
