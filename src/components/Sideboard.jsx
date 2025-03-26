@@ -96,30 +96,9 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     };
 
     const handleSaveSong = (song) => {
-        const artistName =
-            song.artists && song.artists.length > 0
-                ? song.artists[0]?.name
-                : "Unkown Artist";
-
-        const albumImage =
-            song.album?.images && song.album.images.length > 0
-                ? song.album.images[0].url
-                : "default-image-url";
-
-        const simplifiedSong = {
-            artistName,
-            songName: song.name,
-            albumName: song.album?.name || "Unknown Album",
-            albumImage,
-        };
-
         setPlaylist((prevPlaylist) => {
-            if (
-                !prevPlaylist.some(
-                    (s) => s.songName === simplifiedSong.songName
-                )
-            ) {
-                return [...prevPlaylist, simplifiedSong];
+            if (!prevPlaylist.some((s) => s.id === song.id)) {
+                return [...prevPlaylist, song];
             }
             return prevPlaylist;
         });
@@ -128,13 +107,11 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
             if (
                 prevSelectedPlaylist &&
                 prevSelectedPlaylist.song &&
-                !prevSelectedPlaylist.song.some(
-                    (s) => s.songName === simplifiedSong.songName
-                )
+                !prevSelectedPlaylist.song.some((s) => s.id === song.id)
             ) {
                 return {
                     ...prevSelectedPlaylist,
-                    song: [...prevSelectedPlaylist.song, simplifiedSong],
+                    song: [...prevSelectedPlaylist.song, song],
                 };
             }
             return prevSelectedPlaylist;
@@ -144,16 +121,17 @@ const Sideboard = ({ selectedSongs, onAddToSideboard }) => {
     const handleDeleteSong = (song) => {
         if (!song) return;
 
-        setPlaylist((prevPlaylist) => {
-            const filteredSongs = prevPlaylist.filter(
-                (s) => s.songName !== song.songName
-            );
-            return filteredSongs;
-        });
+        setPlaylist((prevPlaylist) =>
+            prevPlaylist.filter((s) => s.id !== song.id)
+        );
 
         setSelectedPlaylist((prevSelectedPlaylist) => {
+            if (!prevSelectedPlaylist || !prevSelectedPlaylist.song) {
+                return prevSelectedPlaylist;
+            }
+
             const filteredSongs = prevSelectedPlaylist.song.filter(
-                (s) => s.songName !== song.songName
+                (s) => s.id !== song.id
             );
 
             return {
@@ -220,8 +198,3 @@ Sideboard.propTypes = {
 };
 
 export default Sideboard;
-
-// ISSUES:
-// When adding a new song to the prev playlist none of the info renders
-// When deleting a song from a previous playlist, the entire playlist will delete form the librarycard
-// Everytime I try to fix a bug, a fuck ton more come up
